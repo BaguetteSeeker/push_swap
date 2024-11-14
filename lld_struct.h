@@ -1,17 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   lld_struct.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 02:08:23 by epinaud           #+#    #+#             */
-/*   Updated: 2024/11/14 01:53:09 by epinaud          ###   ########.fr       */
+/*   Created: 2024/11/05 12:30:59 by epinaud           #+#    #+#             */
+/*   Updated: 2024/11/14 02:56:29 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef LLD_STRUCT_H
+# define LLD_STRUCT_H
+# include "stdlib.h"
 
-# define EXIT_FAILURE 1
-# define EXIT_SUCCESS 0
-# define ARGV_START 1
+typedef struct s_numset
+{
+	char			xpm[255];
+	void			*img;
+	int				imgwdth;
+	int				imghght;
+	struct s_numset	*next;
+}	t_numset;
+
+# ifndef LL_TYP
+#  define LL_TYP t_numset
+# endif
+#endif
