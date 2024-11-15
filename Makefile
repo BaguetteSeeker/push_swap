@@ -6,7 +6,7 @@
 #    By: epinaud <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/25 16:30:14 by epinaud           #+#    #+#              #
-#    Updated: 2024/11/14 02:29:39 by epinaud          ###   ########.fr        #
+#    Updated: 2024/11/14 22:42:27 by epinaud          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ $(EXE) :
 os:
 	@echo $(OS_NAME)
 
-push_swap: .obj/push_swap.o
+push_swap: .obj/push_swap.o .obj/utils.o
 
 libft:
 	@make -C libft

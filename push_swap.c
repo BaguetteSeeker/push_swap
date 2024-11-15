@@ -6,55 +6,130 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 02:07:57 by epinaud           #+#    #+#             */
-/*   Updated: 2024/11/14 02:39:49 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/11/15 02:11:24 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+//Objectifs du jour :
+//- Peaufiner le parsing --
+//- Écrire les instructions de push (à tester en déclarant deux stack de test minimalistes) -~~
+//- Effectuer la création des listes --
+//- Ajouter la fonction swap() --
 
-char	*join_args(char **args)
+//Objectifs 15/11
+//- Installer le visualizer
+//- Attaquer l'algo
+//- Concevoir les tests pour l'algo
+
+//Objectifs 16/11
+//Finir l'algo
+
+//Objectifs 17/11 :
+//- Faire corriger Push swap
+//- Nettoyer appart et faire la valise (Couper compteur avant départ)
+//- Se faire propre et rouver Teresa au restaurant
+
+int	put_err(char *msg)
 {
-	char	*numstr;
-	char	*prevalloc;
-
-	numstr = ft_strjoin(*args, *(args + 1));
-	if (!numstr)
-		(ft_putendl_fd("Aieaie failed to join args 0", 1), exit(1));
-	args += 2;
-	while (*args)
-	{
-		prevalloc = numstr;
-		numstr = ft_strjoin(numstr, *args);
-		
-		if (!numstr)
-			(ft_putendl_fd("Aieaie failed to join args 1", 1), free(prevalloc), exit(1));
-		free(prevalloc);
-		args++;
-	}
-	return (numstr);
+	(void)msg;
+	ft_putendl_fd("Error", 1);
+	// if (errno)
+	// 	perror(msg);
+	if(msg[0])
+		ft_putendl_fd(msg, 1);
+	// clean_game_memory(solong);
+	exit(EXIT_FAILURE);
 }
 
-int	check_arguments(int argc, char **args)
+void	lst_wipe(t_stack *lst)
 {
-	char	*numstr;
+	lst->nbr = 0;
+	lst->index = 0;
+}
+
+void	lst_put(t_stack *lst)
+{
+	ft_putstr_fd("New list has nbr : ", 1);
+	ft_putnbr_fd(lst->nbr, 1);
+	ft_putendl_fd("", 1);
+}
+
+int	check_dup(char *strnum, char **args)
+{
+	while (*args)
+	{
+		if (!ft_strcmp(*args, strnum))
+			return (1);
+		args++;
+	}
+	return (0);
+}
+
+int	check_arg(char **args)
+{
+	size_t	nlen;
+	size_t	slen;
+	long long	nbr;
+	
+	//Take + signs into account ??
+	slen = ft_strlen(*args);
+	nbr = ft_atoi(*args);
+	nlen = ft_nbrlen(nbr);
+	if (slen != nlen)
+		ft_printf("Slen is %u & nlen is %u \n For str %s & num %d\n", slen, nlen, *args, nbr);
+	if (nbr < INT_MIN || nbr > INT_MAX)
+		put_err("INT overflow within provided values\n");
+	if (check_dup(*args, args + 1))
+		ft_printf("%s has dupplicate \n", *args);
+	return (0);
+}
+
+int	parse_args(int argc, char **args, t_stack **stack_a)
+{
+	char	**numstrlst;
+	t_stack	*nbr;
+	size_t	i;
 	
 	if (argc > 2)
-		numstr = join_args(++args);
+		numstrlst = args;
 	else
-		numstr = args[1];
-	ft_printf("Stringed params : %s\n", numstr);
-	free(numstr);
+		numstrlst = ft_split(args[1], ' ');
+	i = 0;
+	while (numstrlst[i])
+	{
+		if (check_arg(&numstrlst[i]))
+			return (1);
+		nbr = ft_lstnew(&(t_stack){.nbr = ft_atoi(numstrlst[i++])});
+		if (!nbr)
+			ft_lstclear(stack_a, &lst_wipe);
+		else
+			ft_lstadd_back(stack_a, nbr);
+	}
+	if (argc == 2)
+		free(numstrlst);
 	return (0);
 }
 
 int	main(int argc, char *argv[])
 {
-	// t_list	**stack_a;
-	// t_list	**stack_b;
+	t_stack	*stack_a;
+	// t_stack	*stack_b;
+	// t_stack	*stack_c;
 
+	stack_a = NULL;
+	// stack_a = ft_lstnew(&(t_stack){.next = NULL, .prev = NULL, .nbr = 5, .index = 0});
+	// stack_b = ft_lstnew(&(t_stack){.next = NULL, .prev = stack_a, .nbr = 8, .index = 0});
+	// stack_c = ft_lstnew(&(t_stack){.next = NULL, .prev = stack_b, .nbr = 2, .index = 0});
 	if (argc < 2)
 		return(ft_putendl_fd("Invalid argument count", 1), 1);
-
-	if (check_arguments(argc, argv++))
+	// ft_printf("Stacks abc val before sort %p %p %p\n", stack_a->prev, stack_b->prev, stack_c->prev);
+	// // ft_swap(&(stack_a->nbr), &(stack_b->nbr));
+	// ft_swap((long *)&(stack_a->prev), (long *)&(stack_b->prev));
+	// ft_printf("After sort %p %p %p\n", stack_a->prev, stack_b->prev, stack_c->prev);
+	
+	if (parse_args(argc, ++argv, &stack_a))
 		exit(1);
+	ft_lstiter(stack_a, &lst_put);
+	ft_lstclear(&stack_a, &lst_wipe);
 }

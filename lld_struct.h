@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 12:30:59 by epinaud           #+#    #+#             */
-/*   Updated: 2024/11/14 02:56:29 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/11/14 21:52:41 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,15 @@
 # define LLD_STRUCT_H
 # include "stdlib.h"
 
-typedef struct s_numset
+typedef struct s_stack
 {
-	char			xpm[255];
-	void			*img;
-	int				imgwdth;
-	int				imghght;
-	struct s_numset	*next;
-}	t_numset;
+	long			nbr;
+	long			index;
+	struct s_stack	*prev;
+	struct s_stack	*next;
+}	t_stack;
 
 # ifndef LL_TYP
-#  define LL_TYP t_numset
+#  define LL_TYP t_stack
 # endif
 #endif
