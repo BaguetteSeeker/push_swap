@@ -12,4 +12,4 @@ main.c
 *.txt
 *.md
 *exe
-so_long
+push_swap
