@@ -6,29 +6,11 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 02:07:57 by epinaud           #+#    #+#             */
-/*   Updated: 2024/11/15 02:11:24 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/11/15 19:10:28 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-//Objectifs du jour :
-//- Peaufiner le parsing --
-//- Écrire les instructions de push (à tester en déclarant deux stack de test minimalistes) -~~
-//- Effectuer la création des listes --
-//- Ajouter la fonction swap() --
-
-//Objectifs 15/11
-//- Installer le visualizer
-//- Attaquer l'algo
-//- Concevoir les tests pour l'algo
-
-//Objectifs 16/11
-//Finir l'algo
-
-//Objectifs 17/11 :
-//- Faire corriger Push swap
-//- Nettoyer appart et faire la valise (Couper compteur avant départ)
-//- Se faire propre et rouver Teresa au restaurant
 
 int	put_err(char *msg)
 {
