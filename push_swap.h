@@ -6,11 +6,13 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 02:08:23 by epinaud           #+#    #+#             */
-/*   Updated: 2024/11/17 16:50:17 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/11/22 18:26:17 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef PUSH_SWAP_H
+# define PUSH_SWAP_H
+# include "libft.h"
 
 # define EXIT_FAILURE 1
 # define EXIT_SUCCESS 0
@@ -25,7 +27,31 @@
 # define RR_ID 8
 # define RRA_ID 9
 # define RRB_ID 10
-# define RRR_id 11 
+# define RRR_ID 11
+
+enum e_moveset
+{
+	sa,
+	sb,
+	ss,
+	pa,
+	pb,
+	ra,
+	rb,
+	rr,
+	rra,
+	rrb,
+	rrr
+};
+
+typedef struct s_sort
+{
+	size_t	out_cost;
+	size_t	in_cost;
+	size_t	out_move;
+	size_t	in_move;
+
+}		t_sort;
 
 # define INITIAL_STACKSIZ 2
 # define NO_COST 0
@@ -57,3 +83,4 @@ void	ps_rr(t_stack **a, t_stack **b, int output);
 void	ps_rra(t_stack **b, int output);
 void	ps_rrb(t_stack **b, int output);
 void	ps_rrr(t_stack **a, t_stack **b, int output);
+#endif
