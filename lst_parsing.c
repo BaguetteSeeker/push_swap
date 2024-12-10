@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sort_utils.c                                       :+:      :+:    :+:   */
+/*   lst_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 02:03:06 by epinaud           #+#    #+#             */
-/*   Updated: 2024/11/17 15:24:35 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/12/10 22:16:39 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,23 +42,33 @@ int	get_pos(int nbr, t_stack *stack)
 // 	return (stack);
 // }
 
-int	get_dest(int nbr, t_stack *stack)
-{
-	int	dest;
 
-	dest = 1;
+//Fetches in the dst_stack the dst index where the given nbr belongs
+//Index solution issues: dst should be computed differently whether nbr should be set on the top or bottom part of dst_stack
+size_t	get_dest(int nbr, t_stack *stack)
+{
+	int		dest;
+	long	spread;
+
+	dest = 0;
+	spread = 0;
 	if (stack->nbr > lst_max(stack))
-		return (dest);
-	//else if () if nbr < lstmin
-		//return (); dest will be lstsiz
+		return (get_pos(lst_max(stack), stack));
+	else if (nbr < lst_min(stack))
+		return (get_pos(lst_min(stack), stack) + 1);
 	while (stack)
 	{
 		if (nbr > stack->nbr)
-			return (dest);
-		dest++;
+		{
+			if (nbr - stack->nbr < spread || spread == 0)
+			{
+				spread = nbr - stack->nbr;
+				dest = stack->nbr;
+			}
+		}
 		stack = stack->next;
 	}
-	return (-1);
+	return (get_pos(dest, stack));
 }
 
 int	lst_orderchk(t_stack *stack)
