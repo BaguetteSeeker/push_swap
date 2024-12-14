@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 02:08:23 by epinaud           #+#    #+#             */
-/*   Updated: 2024/11/22 18:26:17 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/12/14 02:40:49 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,37 @@ enum e_moveset
 	rrr
 };
 
+enum e_rotation
+{
+	up,
+	down,
+	both
+};
+
+typedef struct s_pswap
+{
+	t_stack	**stack_a;
+	t_stack	**stack_b;
+	size_t	a_siz;
+	size_t	b_siz;
+}	t_pswap;
+
+//Weak cost remains to be implemented in order to solve the growing deoptimization 
+//occuring with divergeant rot directions as stack sizes vary more & more in siz from one another
 typedef struct s_sort
 {
 	size_t	out_cost;
-	size_t	in_cost;
 	size_t	out_move;
+	size_t	out_weak_cost;
+	size_t	in_cost;
 	size_t	in_move;
-
+	size_t	in_weak_cost;
+	size_t	full_cost;
 }		t_sort;
 
 # define INITIAL_STACKSIZ 2
 # define NO_COST 0
+# define PUSH_COST 1
 # define RR_EXCES_COST 1
 # define TOPTOBOT_COST 1
 
