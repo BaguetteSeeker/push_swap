@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 02:03:06 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/10 22:16:39 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/12/14 02:57:17 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,43 +19,29 @@ int	get_pos(int nbr, t_stack *stack)
 	pos = 0;
 	while (stack)
 	{
-		pos++;
 		if (stack->nbr == nbr)
 			return (pos);
+		pos++;
 		stack = stack->next;
 	}
 	return (-1);
 }
 
-// t_stack	*index_lstvals(t_stack *stack)
-// {
-// 	t_stack	*start;
-// 	int		index;
-
-// 	index = 0;
-// 	start = stack;
-// 	while (stack->next)
-// 	{
-// 		stack->index = index++;
-// 		stack = stack->next;
-// 	}
-// 	return (stack);
-// }
-
-
 //Fetches in the dst_stack the dst index where the given nbr belongs
 //Index solution issues: dst should be computed differently whether nbr should be set on the top or bottom part of dst_stack
-size_t	get_dest(int nbr, t_stack *stack)
+int	get_dest(int nbr, t_stack *stack)
 {
 	int		dest;
 	long	spread;
+	t_stack	*stk_head;
 
 	dest = 0;
 	spread = 0;
-	if (stack->nbr > lst_max(stack))
-		return (get_pos(lst_max(stack), stack));
-	else if (nbr < lst_min(stack))
-		return (get_pos(lst_min(stack), stack) + 1);
+	stk_head = stack;
+	// if (stack->nbr > lst_max(stack))
+	// 	return (get_pos(lst_max(stack), stack));
+	// else if (nbr < lst_min(stack))
+	// 	return (get_pos(lst_min(stack), stack) + 1);
 	while (stack)
 	{
 		if (nbr > stack->nbr)
@@ -68,7 +54,9 @@ size_t	get_dest(int nbr, t_stack *stack)
 		}
 		stack = stack->next;
 	}
-	return (get_pos(dest, stack));
+	if (spread == 0)
+		return (get_pos(lst_min(stk_head), stk_head) + 1);
+	return (get_pos(dest, stk_head));
 }
 
 int	lst_orderchk(t_stack *stack)
