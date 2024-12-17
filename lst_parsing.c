@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 02:03:06 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/14 02:57:17 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/12/18 00:28:34 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	get_pos(int nbr, t_stack *stack)
 }
 
 //Fetches in the dst_stack the dst index where the given nbr belongs
-//Index solution issues: dst should be computed differently whether nbr should be set on the top or bottom part of dst_stack
 int	get_dest(int nbr, t_stack *stack)
 {
 	int		dest;
