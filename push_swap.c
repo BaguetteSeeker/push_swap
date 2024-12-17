@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 02:07:57 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/14 04:19:43 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/12/18 00:40:10 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void initial_push(t_stack **stack_a, t_stack **stack_b)
 	ps_pb(stack_a, stack_b, 1);
 }
 
-//Evals & returns sort cost for given nbr in source stack
+//Evals necessarry rotations & their direction to properly prep the given stack
 void	eval_rots(size_t pos, size_t lstsiz, size_t *move, size_t *cost)
 {
 	size_t	mid_threshold;
@@ -59,37 +59,70 @@ void	eval_rots(size_t pos, size_t lstsiz, size_t *move, size_t *cost)
 	}
 }
 
-//else if case increasingly starts lacking in optimization as stacks vary in size from one another 
-size_t	move_cost(t_sort mv)
+// void	rotate(t_stack *target, size_t move, size_t rots_nbr, t_stack *target2)
+// {
+// 	while (rots_nbr-- != 0)
+
+// }
+
+// void	exec_sort(t_sort nbr)
+// {
+// 	if (nbr.out_move == both || nbr.in_move == both || nbr.out_move == nbr.in_move)
+// 	{
+// 		if (nbr.out_cost > nbr.in_cost)
+// 			(rotate(both,));
+// 		else if (nbr.in_cost > src_stacksiz / 2)
+// 			return (nbr.in_cost + PUSH_COST);
+// 	}
+// 	else
+// 		(rotate(nbr.src, nbr.out_move, nbr.out_cost, NULL),
+// 			rotate(nbr.dst, nbr.in_move, nbr.in_cost, NULL));
+// }
+//else if case increasingly starts lacking in optimization as stacks vary in size from one another
+size_t	move_cost(t_sort nbr/* , size_t dst_stacksiz, size_t src_stacksiz */)
 {
-	if (mv.out_move == both || mv.in_move == both || mv.out_move == mv.in_move)
-		return (ft_maxint(mv.out_cost, mv.in_cost) + PUSH_COST);
+	if (nbr.out_move == both || nbr.in_move == both || nbr.out_move == nbr.in_move)
+		return (ft_maxint(nbr.out_cost, nbr.in_cost) + PUSH_COST);
+	// 
+	// else if (nbr.out_move != nbr.in_move)
+	// {
+	// 	if (nbr.out_cost > (dst_stacksiz - nbr.in_cost))
+	// 		return (nbr.out_cost +  PUSH_COST);
+	// 	else if (nbr.in_cost > (src_stacksiz - nbr.in_cost))
+	// 		return (nbr.in_cost + PUSH_COST);
+	// 	else
+	// 		return (nbr.out_cost + nbr.in_cost + PUSH_COST);
+	// }
 	else
-		return (mv.out_cost + mv.in_cost + PUSH_COST);
+		return (nbr.out_cost + nbr.in_cost + PUSH_COST);
 }
 
-t_sort	fetch_cheapest(t_stack *src, t_stack *dst, size_t src_siz, size_t dst_siz)
+t_sort	fetch_cheapest(t_stack *src, t_stack *dst,
+	size_t src_siz, size_t dst_siz)
 {
-	t_sort	moves;
+	t_sort	number;
 	t_sort	cheapest;
-	
-	eval_rots(get_pos(src->nbr, src), src_siz, &(moves.out_move), &(moves.out_cost));
-	eval_rots(get_dest(src->nbr, dst), dst_siz, &(moves.in_move), &(moves.in_cost));
-	moves.full_cost = move_cost(moves);
-	cheapest = moves;
-	src = src->next;
+	t_stack	*src_head;
+
+	src_head = src;
+	cheapest = (t_sort){0};
+	cheapest.pos = -1;
 	while (src)
 	{
-		eval_rots(get_pos(src->nbr, src), src_siz, &(moves.out_move), &(moves.out_cost));
-		eval_rots(get_dest(src->nbr, dst), dst_siz, &(moves.in_move), &(moves.in_cost));
-		moves.full_cost = move_cost(moves);
-		if (moves.full_cost < cheapest.full_cost)
+		number.pos = get_pos(src->nbr, src_head);
+		eval_rots(number.pos, src_siz, &(number.out_move), &(number.out_cost));
+		eval_rots(get_dest(src->nbr, dst), dst_siz,
+			&(number.in_move), &(number.in_cost));
+		number.full_cost = move_cost(number);
+		if (number.full_cost < cheapest.full_cost || cheapest.pos == -1)
 		{
-			ft_printf("New cheapest is %d\n", src->nbr);
-			cheapest = moves;
+			ft_printf("New cheapest is %d for %d total moves\n", src->nbr, number.full_cost);
+			cheapest = number;
 		}
 		src = src->next;
 	}
+	ft_putendl_fd("For B stack as follow :", 1);
+	ft_lstiter(dst, &lst_put);
 	return (cheapest);
 }
 
@@ -119,9 +152,10 @@ void	sort_list(t_stack **stack_a, t_stack **stack_b)
 	
 	eval_rots(get_pos(3, &stack_b06), ft_lstsize(&stack_b06), &(moves.out_move), &(moves.out_cost));
 	eval_rots(get_dest(3, *stack_a), lstsiz_a, &(moves.in_move), &(moves.in_cost));
-	ft_printf("For 3, \nOut cost is %u && Out move %u\n", moves.out_cost, moves.out_move);
-	ft_printf("In cost is %u and prefered move is %u\n", moves.in_cost, moves.in_move);
-	ft_printf("Cheapest in stack a to b has %d\n", fetch_cheapest(*stack_a, &stack_b06, lstsiz_a, ft_lstsize(&stack_b06)).full_cost);
+	// ft_printf("For 3, \nOut cost is %u && Out move %u\n", moves.out_cost, moves.out_move);
+	// ft_printf("In cost is %u and prefered move is %u\n", moves.in_cost, moves.in_move);
+	ft_printf("Cheapest in stack a to b has %d\n", fetch_cheapest(*stack_a, &stack_b06, lstsiz_a,
+		ft_lstsize(&stack_b06)).full_cost);
 	// while (lstsiz_a > 3)
 	// {
 	// 	// 	ps_pb(stack_a, stack_b, 0);

@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 02:08:23 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/14 02:40:49 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/12/18 00:40:06 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_pswap
 //occuring with divergeant rot directions as stack sizes vary more & more in siz from one another
 typedef struct s_sort
 {
+	int		pos;
 	size_t	out_cost;
 	size_t	out_move;
 	size_t	out_weak_cost;
