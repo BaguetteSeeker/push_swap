@@ -6,13 +6,13 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 12:28:34 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/18 12:41:25 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/12/19 20:53:12 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	duo_rot(size_t direction, size_t cost, t_stack **a, t_stack **b)
+static void	duo_rot(size_t direction, size_t cost, t_stack **a, t_stack **b)
 {
 	while (cost-- != 0)
 	{
@@ -23,22 +23,22 @@ void	duo_rot(size_t direction, size_t cost, t_stack **a, t_stack **b)
 	}
 }
 
-void	rot(t_stack **target, size_t cost, size_t direction, char ps)
+static void	rot(t_stack **target, size_t cost, size_t direction, char ps)
 {
 	while (cost-- != 0)
 	{
 		if (ps == 'a')
 		{
-			if (direction == 0)
+			if (direction == up)
 				ps_ra(target, 0);
-			else if (direction == 1)
+			else if (direction == down)
 				ps_rra(target, 0);
 		}
 		else if (ps == 'b')
 		{
-			if (direction == 0)
+			if (direction == up)
 				ps_rb(target, 0);
-			else if (direction == 1)
+			else if (direction == down)
 				ps_rrb(target, 0);
 		}
 	}

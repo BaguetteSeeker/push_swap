@@ -6,7 +6,7 @@
 #    By: epinaud <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/25 16:30:14 by epinaud           #+#    #+#              #
-#    Updated: 2024/11/17 16:43:07 by epinaud          ###   ########.fr        #
+#    Updated: 2024/12/19 20:23:30 by epinaud          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ os:
 
 push_swap: .obj/push_swap.o .obj/stack_push.o .obj/stack_rotate.o \
 			.obj/stack_swap.o .obj/utils.o .obj/lst_sorting.o .obj/lst_parsing.o \
-			.obj/args_parsing.o
+			.obj/args_parsing.o .obj/push_number.o
 
 libft:
 	@make -C libft
