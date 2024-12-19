@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 02:08:23 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/18 00:40:06 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/12/18 12:32:01 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,13 @@ typedef struct s_pswap
 	size_t	b_siz;
 }	t_pswap;
 
-//Weak cost remains to be implemented in order to solve the growing deoptimization 
-//occuring with divergeant rot directions as stack sizes vary more & more in siz from one another
 typedef struct s_sort
 {
 	int		pos;
-	size_t	out_cost;
-	size_t	out_move;
-	size_t	out_weak_cost;
-	size_t	in_cost;
-	size_t	in_move;
-	size_t	in_weak_cost;
+	size_t	src_cost;
+	size_t	src_move;
+	size_t	dst_cost;
+	size_t	dst_move;
 	size_t	full_cost;
 }		t_sort;
 
@@ -82,6 +78,7 @@ typedef struct s_sort
 void	sort_list(t_stack **stack_a, t_stack **stack_b);
 void	sort_three(t_stack **stack);
 int		parse_args(int argc, char **args, t_stack **stack_a);
+void	push_cheapest(t_sort nbr, t_stack **src_stk, t_stack **dst_stk);
 void	ft_swap(long *val1, long *val2);
 int		min_array(int arr[], size_t siz);
 int		max_array(int arr[], size_t siz);

@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 02:07:57 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/18 00:40:10 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/12/19 20:15:16 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,42 +59,24 @@ void	eval_rots(size_t pos, size_t lstsiz, size_t *move, size_t *cost)
 	}
 }
 
-// void	rotate(t_stack *target, size_t move, size_t rots_nbr, t_stack *target2)
-// {
-// 	while (rots_nbr-- != 0)
-
-// }
-
-// void	exec_sort(t_sort nbr)
-// {
-// 	if (nbr.out_move == both || nbr.in_move == both || nbr.out_move == nbr.in_move)
-// 	{
-// 		if (nbr.out_cost > nbr.in_cost)
-// 			(rotate(both,));
-// 		else if (nbr.in_cost > src_stacksiz / 2)
-// 			return (nbr.in_cost + PUSH_COST);
-// 	}
-// 	else
-// 		(rotate(nbr.src, nbr.out_move, nbr.out_cost, NULL),
-// 			rotate(nbr.dst, nbr.in_move, nbr.in_cost, NULL));
-// }
-//else if case increasingly starts lacking in optimization as stacks vary in size from one another
+//else if case : Weak cost remains to be implemented in order to solve the growing deoptimization 
+//occuring with divergeant rot directions as stack sizes vary more & more in siz from one another
 size_t	move_cost(t_sort nbr/* , size_t dst_stacksiz, size_t src_stacksiz */)
 {
-	if (nbr.out_move == both || nbr.in_move == both || nbr.out_move == nbr.in_move)
-		return (ft_maxint(nbr.out_cost, nbr.in_cost) + PUSH_COST);
+	if (nbr.src_move == both || nbr.dst_move == both || nbr.src_move == nbr.dst_move)
+		return (ft_maxint(nbr.src_cost, nbr.dst_cost) + PUSH_COST);
 	// 
-	// else if (nbr.out_move != nbr.in_move)
+	// else if (nbr.src_move != nbr.dst_move)
 	// {
-	// 	if (nbr.out_cost > (dst_stacksiz - nbr.in_cost))
-	// 		return (nbr.out_cost +  PUSH_COST);
-	// 	else if (nbr.in_cost > (src_stacksiz - nbr.in_cost))
-	// 		return (nbr.in_cost + PUSH_COST);
+	// 	if (nbr.src_cost > (dst_stacksiz - nbr.dst_cost))
+	// 		return (nbr.src_cost +  PUSH_COST);
+	// 	else if (nbr.dst_cost > (src_stacksiz - nbr.dst_cost))
+	// 		return (nbr.dst_cost + PUSH_COST);
 	// 	else
-	// 		return (nbr.out_cost + nbr.in_cost + PUSH_COST);
+	// 		return (nbr.src_cost + nbr.dst_cost + PUSH_COST);
 	// }
 	else
-		return (nbr.out_cost + nbr.in_cost + PUSH_COST);
+		return (nbr.src_cost + nbr.dst_cost + PUSH_COST);
 }
 
 t_sort	fetch_cheapest(t_stack *src, t_stack *dst,
@@ -110,9 +92,9 @@ t_sort	fetch_cheapest(t_stack *src, t_stack *dst,
 	while (src)
 	{
 		number.pos = get_pos(src->nbr, src_head);
-		eval_rots(number.pos, src_siz, &(number.out_move), &(number.out_cost));
+		eval_rots(number.pos, src_siz, &(number.src_move), &(number.src_cost));
 		eval_rots(get_dest(src->nbr, dst), dst_siz,
-			&(number.in_move), &(number.in_cost));
+			&(number.dst_move), &(number.dst_cost));
 		number.full_cost = move_cost(number);
 		if (number.full_cost < cheapest.full_cost || cheapest.pos == -1)
 		{
@@ -139,46 +121,39 @@ void	sort_list(t_stack **stack_a, t_stack **stack_b)
 	ft_putendl_fd("Show lst vals before sort", 1);
 	ft_lstiter(*stack_a, &lst_put);
 
-	t_stack	stack_b01 = (t_stack){.nbr = 11, .next = NULL};
-	t_stack	stack_b02 = (t_stack){.nbr = 7, .next = &stack_b01};
-	t_stack	stack_b03 = (t_stack){.nbr = 3, .next = &stack_b02};
-	t_stack	stack_b04 = (t_stack){.nbr = 15, .next = &stack_b03};
-	t_stack	stack_b05 = (t_stack){.nbr = 13, .next = &stack_b04};
-	t_stack	stack_b06 = (t_stack){.nbr = 12, .next = &stack_b05};
+	t_stack	stack_b01 = (t_stack){.nbr = 12, .next = NULL};
+	t_stack	stack_b02 = (t_stack){.nbr = 13, .next = &stack_b01};
+	t_stack	stack_b03 = (t_stack){.nbr = 15, .next = &stack_b02};
+	t_stack	stack_b04 = (t_stack){.nbr = 3, .next = &stack_b03};
+	t_stack	stack_b05 = (t_stack){.nbr = 7, .next = &stack_b04};
+	t_stack	stack_b06 = (t_stack){.nbr = 11, .next = &stack_b05};
 	
 	//initial_push(stack_a, stack_b);
 	// lstsiz_b = INITIAL_STACKSIZ;
 	lstsiz_a = ft_lstsize(*stack_a);
 	
-	eval_rots(get_pos(3, &stack_b06), ft_lstsize(&stack_b06), &(moves.out_move), &(moves.out_cost));
-	eval_rots(get_dest(3, *stack_a), lstsiz_a, &(moves.in_move), &(moves.in_cost));
-	// ft_printf("For 3, \nOut cost is %u && Out move %u\n", moves.out_cost, moves.out_move);
-	// ft_printf("In cost is %u and prefered move is %u\n", moves.in_cost, moves.in_move);
+	eval_rots(get_pos(3, &stack_b06), ft_lstsize(&stack_b06), &(moves.src_move), &(moves.src_cost));
+	eval_rots(get_dest(3, *stack_a), lstsiz_a, &(moves.dst_move), &(moves.dst_cost));
+	// ft_printf("For 3, \nOut cost is %u && Out move %u\n", moves.src_cost, moves.src_move);
+	// ft_printf("In cost is %u and prefered move is %u\n", moves.dst_cost, moves.dst_move);
 	ft_printf("Cheapest in stack a to b has %d\n", fetch_cheapest(*stack_a, &stack_b06, lstsiz_a,
 		ft_lstsize(&stack_b06)).full_cost);
 	// while (lstsiz_a > 3)
 	// {
-	// 	// 	ps_pb(stack_a, stack_b, 0);
-
 	// 	//cheapest = find_cheapest(*stack_a);
-	// 	//Find cheapest cost elm
-	// 	//Rotate it to the closest edges of its stack (optimise through find_optimum_exit)
+	// 	// 	ps_pb(stack_a, stack_b, cheapest.pos);
 	// 	//Push ps_pb()
-	// 	//Find optimum slot : if nbr is MAX or MIN in dst stack -> pre-sort dest stack and put nbr at the top
-	// 	//Get the closest edge in dst stack and bulk rotate said stack till 
-
 	// 	lstsiz_a--;
 	// 	lstsiz_b++;
 	// }
 	// sort_three(stack_a);
-	//  	sort_five(stack_a);
+	
 	ft_putendl_fd("Show lst vals after sort", 1);
 	ft_lstiter(*stack_a, &lst_put);
 }
 
 int	main(int argc, char *argv[])
 {
-	//t_pswap	stacks;
 	t_stack	*stack_a;
 	t_stack	*stack_b;
 
