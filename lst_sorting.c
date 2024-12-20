@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 15:30:15 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/20 04:08:26 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/12/20 20:57:42 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,42 @@ void	sort_three(t_stack **stack)
 	}
 }
 
+void	sort_five(t_stack **stk_a, t_stack **stk_b, size_t a_siz, size_t b_siz)
+{
+	void	(*psptr)(t_stack **, int);
+	t_sort	moves;
+
+	ps_pb(stk_a, stk_b, 0);
+	ps_pb(stk_a, stk_b, 0);
+	sort_three(stk_a);
+	while (*stk_b)
+	{
+		moves = fetch_cheapest(*stk_b, *stk_a, b_siz--, a_siz++);
+		if (moves.dst_move == up)
+			psptr = &ps_ra;
+		else
+			psptr = &ps_rra;
+		while (moves.dst_cost-- != 0)
+			psptr(stk_b, 0);
+		ps_pa(stk_a, stk_b, 0);
+	}
+	eval_rots(get_pos(lst_min(*stk_a), *stk_a),
+		a_siz, &(moves.src_move), &(moves.src_cost));
+	if (moves.src_move == up)
+		psptr = &ps_ra;
+	else
+		psptr = &ps_ra;
+	while (moves.src_cost-- != 0)
+		psptr(stk_a, 0);
+}
+
 static void	duo_rot(size_t direction, size_t cost, t_stack **a, t_stack **b)
 {
 	while (cost-- != 0)
 	{
 		if (direction == up)
 			ps_rr(a, b, 0);
-		else if (direction == down)
+		else
 			ps_rrr(a, b, 0);
 	}
 }
@@ -56,19 +85,22 @@ static void	rot(t_stack **target, size_t cost, size_t direction, char ps)
 		{
 			if (direction == up)
 				ps_ra(target, 0);
-			else if (direction == down)
+			else
 				ps_rra(target, 0);
 		}
 		else if (ps == 'b')
 		{
 			if (direction == up)
 				ps_rb(target, 0);
-			else if (direction == down)
+			else
 				ps_rrb(target, 0);
 		}
 	}
 }
 
+// if (nbr.src_move == down && nbr.dst_move == down)
+// 	nbr = (t_sort){.src_move = both, .dst_move = both,
+// 		.src_cost = nbr.src_cost, .dst_cost = nbr.dst_cost};
 void	push_cheapest(t_sort nbr, t_stack **src_stk, t_stack **dst_stk)
 {
 	if (nbr.src_move == both || nbr.dst_move == both)
@@ -77,16 +109,13 @@ void	push_cheapest(t_sort nbr, t_stack **src_stk, t_stack **dst_stk)
 			nbr.dst_move = nbr.src_move;
 		else
 			nbr.src_move = nbr.dst_move;
-		if (nbr.src_move == both && nbr.dst_move == both)
-			nbr = (t_sort){.src_move = both, .dst_move = both,
-				.src_cost = nbr.src_cost, .dst_cost = nbr.dst_cost};
 	}
 	if (nbr.src_move == nbr.dst_move)
 	{
 		if (nbr.src_cost < nbr.dst_cost)
 			(duo_rot(nbr.src_move, nbr.src_cost, src_stk, dst_stk),
 				rot(dst_stk, nbr.dst_cost - nbr.src_cost, nbr.dst_move, 'b'));
-		else if (nbr.dst_cost < nbr.src_cost)
+		else
 			(duo_rot(nbr.dst_move, nbr.dst_cost, dst_stk, src_stk),
 				rot(src_stk, nbr.src_cost - nbr.dst_cost, nbr.src_move, 'a'));
 	}
