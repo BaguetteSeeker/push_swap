@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 02:08:23 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/18 12:32:01 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/12/19 23:29:24 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,39 @@ typedef struct s_sort
 	size_t	full_cost;
 }		t_sort;
 
+//ALTERNATE DATA STRUCTS FOR FURTHER FACTORIZATION
+// typedef struct s_nbrlst
+// {
+// 	long			nbr;
+// 	struct s_stack	*next;
+// }	t_nbrlst;
+
+// typedef struct s_sort
+// {
+// 	size_t	move;
+// 	size_t	cost;
+// }	t_sort;
+
+// typedef struct s_stack
+// {
+// 	size_t		size;
+// 	t_sort		moves;
+// 	t_nbrlst	**nbr;
+// }	t_stack;
+
+// typedef struct s_stacks
+// {
+// 	t_stack	a;
+// 	t_stack	b;
+// }	t_stacks;
+
 # define INITIAL_STACKSIZ 2
 # define NO_COST 0
 # define PUSH_COST 1
 # define RR_EXCES_COST 1
 # define TOPTOBOT_COST 1
 
-void	sort_list(t_stack **stack_a, t_stack **stack_b);
+t_stack	*sort_list(t_stack **stack_a, t_stack **stack_b);
 void	sort_three(t_stack **stack);
 int		parse_args(int argc, char **args, t_stack **stack_a);
 void	push_cheapest(t_sort nbr, t_stack **src_stk, t_stack **dst_stk);
