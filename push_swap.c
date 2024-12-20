@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 02:07:57 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/20 03:10:32 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/12/20 04:10:28 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,19 @@ int	put_err(char *msg)
 	exit(EXIT_FAILURE);
 }
 
-// static void	lst_put(t_stack *lst)
-// {
-// 	ft_putstr_fd("New list has nbr : ", 1);
-// 	ft_putnbr_fd(lst->nbr, 1);
-// 	ft_putendl_fd("", 1);
-// }
+static void	lst_put(t_stack *lst)
+{
+	ft_putstr_fd("New list has nbr : ", 1);
+	ft_putnbr_fd(lst->nbr, 1);
+	ft_putendl_fd("", 1);
+}
 
-void initial_push(t_stack **stack_a, t_stack **stack_b)
+void	initial_push(t_stack **stack_a, t_stack **stack_b)
 {
 	ps_pb(stack_a, stack_b, 1);
 	ps_pb(stack_a, stack_b, 1);
+	if ((*stack_b)->nbr < (*stack_b)->next->nbr)
+		ps_sb(stack_b, 0);
 }
 
 //Evals necessarry rotations & their direction to properly prep the given stack
@@ -41,6 +43,12 @@ void	eval_rots(size_t pos, size_t lstsiz, size_t *move, size_t *cost)
 {
 	size_t	mid_threshold;
 
+	if (pos == 0)
+	{
+		*move = both;
+		*cost = 0;
+		return ;
+	}
 	mid_threshold = lstsiz / 2;
 	if (pos == mid_threshold)
 	{
@@ -59,7 +67,7 @@ void	eval_rots(size_t pos, size_t lstsiz, size_t *move, size_t *cost)
 	}
 }
 
-//else if case : Weak cost remains to be implemented in order to solve the growing deoptimization 
+//Strong stack opt. : remains to be implemented in order to solve the growing deoptimization 
 //occuring with divergeant rot directions as stack sizes vary more & more in siz from one another
 size_t	move_cost(t_sort nbr/* , size_t dst_stacksiz, size_t src_stacksiz */)
 {
@@ -98,13 +106,16 @@ t_sort	fetch_cheapest(t_stack *src, t_stack *dst,
 		number.full_cost = move_cost(number);
 		if (number.full_cost < cheapest.full_cost || cheapest.pos == -1)
 		{
-			// ft_printf("New cheapest is %d for %d total moves\n", src->nbr, number.full_cost);
+			ft_printf("New cheapest is %d for %d total moves\n", src->nbr, number.full_cost);
+			ft_putendl_fd("For B stack as follow :", 1);
+			ft_lstiter(dst, &lst_put);
 			cheapest = number;
+			if (src_siz == 1)
+				ft_printf("Last number to push. B move is %d and dstcost is %d\n Srcmv %d Srccost %d\n",
+					cheapest.dst_move, cheapest.dst_cost, cheapest.src_move, cheapest.src_cost);
 		}
 		src = src->next;
 	}
-	// ft_putendl_fd("For B stack as follow :", 1);
-	// ft_lstiter(dst, &lst_put);
 	return (cheapest);
 }
 
@@ -122,50 +133,50 @@ t_stack	*sort_list(t_stack **stack_a, t_stack **stack_b)
 	// ft_putendl_fd("Show lst vals before sort", 1);
 	// ft_lstiter(*stack_a, &lst_put);
 
-	t_stack	stack_b01 = (t_stack){.nbr = 12, .next = NULL};
-	t_stack	stack_b02 = (t_stack){.nbr = 13, .next = &stack_b01};
-	t_stack	stack_b03 = (t_stack){.nbr = 15, .next = &stack_b02};
-	t_stack	stack_b04 = (t_stack){.nbr = 3, .next = &stack_b03};
-	t_stack	stack_b05 = (t_stack){.nbr = 7, .next = &stack_b04};
-	*stack_b = &(t_stack){.nbr = 11, .next = &stack_b05};
+	// t_stack	stack_b01 = (t_stack){.nbr = 12, .next = NULL};
+	// t_stack	stack_b02 = (t_stack){.nbr = 13, .next = &stack_b01};
+	// t_stack	stack_b03 = (t_stack){.nbr = 15, .next = &stack_b02};
+	// t_stack	stack_b04 = (t_stack){.nbr = 3, .next = &stack_b03};
+	// t_stack	stack_b05 = (t_stack){.nbr = 7, .next = &stack_b04};
+	// *stack_b = &(t_stack){.nbr = 11, .next = &stack_b05};
 	
-	//initial_push(stack_a, stack_b);
+	initial_push(stack_a, stack_b);
 	lstsiz_a = ft_lstsize(*stack_a);
 	lstsiz_b = ft_lstsize(*stack_b);
 
-	// eval_rots(get_pos(3, *stack_b), ft_lstsize(*stack_b), &(moves.src_move), &(moves.src_cost));
+	// eval_rots(get_pos(3, *stack_b), lstsiz_b, &(moves.src_move), &(moves.src_cost));
 	// eval_rots(get_dest(3, *stack_a), lstsiz_a, &(moves.dst_move), &(moves.dst_cost));
 	// ft_printf("For 3, \nOut cost is %u && Out move %u\n", moves.src_cost, moves.src_move);
 	// ft_printf("In cost is %u and prefered move is %u\n", moves.dst_cost, moves.dst_move);
 	// ft_printf("Cheapest in stack a to b has %d\n", fetch_cheapest(*stack_a, *stack_b, lstsiz_a,
-		// ft_lstsize(*stack_b)).full_cost);
+		// lstsiz_b).full_cost);
 	// while (lstsiz_a > 3)
 	while (*stack_a)
 	{
-		// ft_printf("New sort remanining %d\n", (*stack_a)->nbr);
 		cheapest = fetch_cheapest(*stack_a, *stack_b, lstsiz_a, lstsiz_b);
 		push_cheapest(cheapest, stack_a, stack_b);
 		lstsiz_a--;
 		lstsiz_b++;
 
 	}
+		ft_putendl_fd("\n\nB Stack has :", 1);
+	ft_lstiter(*stack_b, &lst_put);
 	void	(*psptr)(t_stack **, int);
 	eval_rots(get_pos(lst_max(*stack_b), *stack_b), lstsiz_b, &(moves.src_move), &(moves.src_cost));
 	if (moves.src_move == up)
 		psptr = &ps_rb;
 	else
 		psptr = &ps_rrb;
-	
 	while (moves.src_cost-- != 0)
 		psptr(stack_b, 0);	
 	while (*stack_b)
 		ps_pa(stack_a, stack_b, 0);
 	//sort_three(stack_a);
-	
-	// ft_putendl_fd("Show lst vals after sort\n A stack is:", 1);
-	// ft_lstiter(*stack_a, &lst_put);
-	// ft_putendl_fd("\n\nB Stack has :", 1);
-	// ft_lstiter(*stack_b, &lst_put);
+
+	ft_putendl_fd("Show lst vals after sort\n A stack is:", 1);
+	ft_lstiter(*stack_a, &lst_put);
+	ft_putendl_fd("\n\nB Stack has :", 1);
+	ft_lstiter(*stack_b, &lst_put);
 	return (*stack_a);
 }
 
@@ -173,7 +184,7 @@ int	main(int argc, char *argv[])
 {
 	t_stack	*stack_a;
 	t_stack	*stack_b;
-	// t_stack	*sorted_stack;
+	t_stack	*sorted_stack;
 
 	stack_a = NULL;
 	stack_b = NULL;
@@ -182,8 +193,8 @@ int	main(int argc, char *argv[])
 	if (parse_args(argc, ++argv, &stack_a))
 		exit(1);
 	if (!lst_orderchk(stack_a))
-		sort_list(&stack_a, &stack_b);
-		// sorted_stack = sort_list(&stack_a, &stack_b);
-	// ft_lstclear(&sorted_stack, &lst_wipe);
+		sorted_stack = sort_list(&stack_a, &stack_b);
+		// sort_list(&stack_a, &stack_b);
+	ft_lstclear(&sorted_stack, &lst_wipe);
 	// ft_lstclear(&stack_b, &lst_wipe);
 }
