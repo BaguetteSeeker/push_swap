@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 02:03:06 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/18 00:28:34 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/12/20 04:24:32 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,6 @@ int	get_dest(int nbr, t_stack *stack)
 	dest = 0;
 	spread = 0;
 	stk_head = stack;
-	// if (stack->nbr > lst_max(stack))
-	// 	return (get_pos(lst_max(stack), stack));
-	// else if (nbr < lst_min(stack))
-	// 	return (get_pos(lst_min(stack), stack) + 1);
 	while (stack)
 	{
 		if (nbr > stack->nbr)
