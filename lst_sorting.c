@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 15:30:15 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/20 20:57:42 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/12/20 23:35:27 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	sort_five(t_stack **stk_a, t_stack **stk_b, size_t a_siz, size_t b_siz)
 	if (moves.src_move == up)
 		psptr = &ps_ra;
 	else
-		psptr = &ps_ra;
+		psptr = &ps_rra;
 	while (moves.src_cost-- != 0)
 		psptr(stk_a, 0);
 }

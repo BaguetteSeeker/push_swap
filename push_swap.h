@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 02:08:23 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/20 23:18:11 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/12/20 23:52:22 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int		parse_args(int argc, char **args, t_stack **stack_a);
 void	eval_rots(size_t pos, size_t lstsiz, size_t *move, size_t *cost);
 t_sort	fetch_cheapest(t_stack *src, t_stack *dst,
 			size_t src_siz, size_t dst_siz);
+void	prep_stack(t_stack **stack, size_t size, char ps);
 void	push_cheapest(t_sort nbr, t_stack **src_stk, t_stack **dst_stk);
 void	ft_swap(long *val1, long *val2);
 int		min_array(int arr[], size_t siz);

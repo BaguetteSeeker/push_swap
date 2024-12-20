@@ -6,7 +6,7 @@
 #    By: epinaud <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/25 16:30:14 by epinaud           #+#    #+#              #
-#    Updated: 2024/12/19 20:23:30 by epinaud          ###   ########.fr        #
+#    Updated: 2024/12/21 00:11:59 by epinaud          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,9 +35,8 @@ $(EXE) :
 os:
 	@echo $(OS_NAME)
 
-push_swap: .obj/push_swap.o .obj/stack_push.o .obj/stack_rotate.o \
-			.obj/stack_swap.o .obj/utils.o .obj/lst_sorting.o .obj/lst_parsing.o \
-			.obj/args_parsing.o .obj/push_number.o
+push_swap: .obj/push_swap.o .obj/args_parsing.o .obj/sort_preprocessing.o .obj/lst_parsing.o .obj/lst_sorting.o \
+			.obj/stack_swap.o .obj/stack_push.o .obj/stack_rotate.o .obj/stack_reverse_rotate.o \
 
 libft:
 	@make -C libft
