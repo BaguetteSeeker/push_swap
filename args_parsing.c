@@ -6,11 +6,22 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:19:11 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/11 22:03:04 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/12/20 23:13:37 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+int	put_err(char *msg, char **args, char **nbrs, t_stack **stack)
+{
+	(void)msg;
+	ft_putendl_fd("Error", 1);
+	if (ft_strchr(*args, ' '))
+		ft_clean_memtree(nbrs);
+	ft_lstclear(stack, &lst_wipe);
+	ft_putendl_fd(msg, 1);
+	exit(EXIT_FAILURE);
+}
 
 void	lst_wipe(t_stack *lst)
 {
@@ -39,12 +50,11 @@ static int	check_arg(char **args)
 	nbr = ft_atoi(*args);
 	nlen = ft_nbrlen(nbr);
 	if (slen != nlen)
-		ft_printf("Slen is %u & nlen is %u \n For str %s & num %d\n",
-			slen, nlen, *args, nbr);
+		return (1);
 	if (nbr < INT_MIN || nbr > INT_MAX)
-		put_err("INT overflow within provided values\n");
+		return (1);
 	if (check_dup(*args, args + 1))
-		ft_printf("%s has dupplicate \n", *args);
+		return (1);
 	return (0);
 }
 
@@ -54,22 +64,24 @@ int	parse_args(int argc, char **args, t_stack **stack_a)
 	t_stack	*node;
 	size_t	i;
 
-	if (argc > 2 || !ft_strchr(*args, ' '))
+	if (argc > 2 && ft_strchr(*args, ' '))
+		put_err("", args, NULL, stack_a);
+	else if (!ft_strchr(*args, ' '))
 		numstrlst = args;
-	else
+	else if (ft_strchr(*args, ' '))
 		numstrlst = ft_split(*args, ' ');
 	i = 0;
 	while (numstrlst[i])
 	{
 		if (check_arg(&numstrlst[i]))
-			return (ft_clean_memtree(numstrlst), 1);
+			put_err("", args, numstrlst, stack_a);
 		node = ft_lstnew(&(t_stack){ft_atoi(numstrlst[i++]), NULL});
 		if (!node)
-			ft_lstclear(stack_a, &lst_wipe);
+			put_err("", args, numstrlst, stack_a);
 		else
 			ft_lstadd_back(stack_a, node);
 	}
-	if (argc == 2)
-		free(ft_clean_memtree(numstrlst));
+	if (ft_strchr(*args, ' '))
+		ft_clean_memtree(numstrlst);
 	return (0);
 }
