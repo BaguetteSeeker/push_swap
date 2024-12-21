@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 23:24:03 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/21 00:15:45 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/12/21 19:44:53 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,16 @@ void	eval_rots(size_t pos, size_t lstsiz, size_t *move, size_t *cost)
 	mid_threshold = lstsiz / 2;
 	if (pos == mid_threshold)
 	{
-		*move = both;
-		*cost = lstsiz - pos;
+		if (lstsiz % 2)
+		{
+			*move = up;
+			*cost = mid_threshold;
+		}
+		else
+		{
+			*move = both;
+			*cost = lstsiz - pos;
+		}
 	}
 	else if (pos > mid_threshold)
 	{

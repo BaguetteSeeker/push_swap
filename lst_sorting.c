@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 15:30:15 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/21 03:04:00 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/12/21 19:58:11 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,10 @@ static void	rot(t_stack **target, size_t cost, size_t direction, char ps)
 // 		.src_cost = nbr.src_cost, .dst_cost = nbr.dst_cost};
 void	push_cheapest(t_sort nbr, t_stack **src_stk, t_stack **dst_stk)
 {
-	if (nbr.src_move == both || nbr.dst_move == both)
-	{
-		if (ft_maxint(nbr.src_cost, nbr.dst_cost) == (int)nbr.src_cost)
-			nbr.dst_move = nbr.src_move;
-		else
-			nbr.src_move = nbr.dst_move;
-	}
+	if (nbr.src_move == both && nbr.dst_move != both)
+		nbr.src_move = nbr.dst_move;
+	else if (nbr.dst_move == both && nbr.src_move != both)
+		nbr.dst_move = nbr.src_move;
 	if (nbr.src_move == nbr.dst_move)
 	{
 		if (nbr.src_cost < nbr.dst_cost)
