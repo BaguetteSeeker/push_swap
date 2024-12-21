@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:19:11 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/20 23:13:37 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/12/21 19:36:15 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	parse_args(int argc, char **args, t_stack **stack_a)
 	t_stack	*node;
 	size_t	i;
 
+	numstrlst = NULL;
 	if (argc > 2 && ft_strchr(*args, ' '))
 		put_err("", args, NULL, stack_a);
 	else if (!ft_strchr(*args, ' '))
