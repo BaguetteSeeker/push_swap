@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 15:30:15 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/20 23:35:27 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/12/21 03:04:00 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	sort_three(t_stack **stack)
 	}
 }
 
-void	sort_five(t_stack **stk_a, t_stack **stk_b, size_t a_siz, size_t b_siz)
+void	sort_five(t_stack **stk_a, t_stack **stk_b, size_t a_siz)
 {
 	void	(*psptr)(t_stack **, int);
 	t_sort	moves;
@@ -47,23 +47,17 @@ void	sort_five(t_stack **stk_a, t_stack **stk_b, size_t a_siz, size_t b_siz)
 	sort_three(stk_a);
 	while (*stk_b)
 	{
-		moves = fetch_cheapest(*stk_b, *stk_a, b_siz--, a_siz++);
+		eval_rots(get_dest_rev((*stk_b)->nbr, *stk_a),
+			ft_lstsize(*stk_a), &(moves.dst_move), &(moves.dst_cost));
 		if (moves.dst_move == up)
 			psptr = &ps_ra;
 		else
 			psptr = &ps_rra;
 		while (moves.dst_cost-- != 0)
-			psptr(stk_b, 0);
+			psptr(stk_a, 0);
 		ps_pa(stk_a, stk_b, 0);
 	}
-	eval_rots(get_pos(lst_min(*stk_a), *stk_a),
-		a_siz, &(moves.src_move), &(moves.src_cost));
-	if (moves.src_move == up)
-		psptr = &ps_ra;
-	else
-		psptr = &ps_rra;
-	while (moves.src_cost-- != 0)
-		psptr(stk_a, 0);
+	prep_stack(stk_a, a_siz, 'a');
 }
 
 static void	duo_rot(size_t direction, size_t cost, t_stack **a, t_stack **b)

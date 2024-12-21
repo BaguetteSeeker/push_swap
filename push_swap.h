@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 02:08:23 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/20 23:52:22 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/12/21 03:03:04 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ typedef struct s_sort
 
 void	sort_list(t_stack **stack_a, t_stack **stack_b);
 void	sort_three(t_stack **stack);
-void	sort_five(t_stack **stk_a, t_stack **stk_b, size_t a_siz, size_t b_siz);
+void	sort_five(t_stack **stk_a, t_stack **stk_b, size_t a_siz);
 int		parse_args(int argc, char **args, t_stack **stack_a);
 void	eval_rots(size_t pos, size_t lstsiz, size_t *move, size_t *cost);
 t_sort	fetch_cheapest(t_stack *src, t_stack *dst,
@@ -116,8 +116,10 @@ int		lst_min(t_stack *lst);
 int		lst_max(t_stack *lst);
 int		get_pos(int nbr, t_stack *stack);
 int		get_dest(int nbr, t_stack *stack);
+int		get_dest_rev(int nbr, t_stack *stack);
 int		lst_orderchk(t_stack *stack);
 void	lst_wipe(t_stack *lst);
+void	lst_put(t_stack *lst);
 int		put_err(char *msg, char **args, char **nbr_lst, t_stack **stack);
 
 void	ps_pa(t_stack **a, t_stack **b, int output);
