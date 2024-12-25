@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:19:11 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/21 19:36:15 by epinaud          ###   ########.fr       */
+/*   Updated: 2024/12/25 23:15:37 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	put_err(char *msg, char **args, char **nbrs, t_stack **stack)
 	if (ft_strchr(*args, ' '))
 		ft_clean_memtree(nbrs);
 	ft_lstclear(stack, &lst_wipe);
-	ft_putendl_fd(msg, 1);
 	exit(EXIT_FAILURE);
 }
 
