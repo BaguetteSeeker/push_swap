@@ -6,46 +6,47 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 02:07:57 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/21 03:04:30 by epinaud          ###   ########.fr       */
+/*   Updated: 2025/01/10 20:43:52 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	prep_stack(t_stack **stack, size_t size, char ps)
+void	prep_stack(t_stack *stack, char ps)
 {
-	void	(*psptr)(t_stack **, int);
+	void	(*psptr)(LL_TYP **, int);
 	t_sort	moves;
 
+	moves = (t_sort){0};
 	if (ps == 'b')
 	{
-		eval_rots(get_pos(lst_max(*stack), *stack),
-			size, &(moves.src_move), &(moves.src_cost));
-		if (moves.src_move == up)
+		eval_rots(get_pos(lst_max(stack->list),
+			stack->list), stack->size, &moves);
+		if (moves.side == up)
 			psptr = &ps_rb;
 		else
 			psptr = &ps_rrb;
-		while (moves.src_cost-- != 0)
-			psptr(stack, 0);
+		while (moves.cost-- != 0)
+			psptr(&(stack->list), 0);
 	}
 	else
 	{
-		eval_rots(get_pos(lst_min(*stack), *stack),
-			size, &(moves.src_move), &(moves.src_cost));
-		if (moves.src_move == up)
+		eval_rots(get_pos(lst_min(stack->list),
+			stack->list), stack->size, &stack->moves);
+		if (moves.side == up)
 			psptr = &ps_ra;
 		else
 			psptr = &ps_rra;
-		while (moves.src_cost-- != 0)
-			psptr(stack, 0);
+		while (moves.cost-- != 0)
+			psptr(&(stack->list), 0);
 	}
 }
 
-int	get_dest_rev(int nbr, t_stack *stack)
+int	get_dest_rev(int nbr, t_nbrlst *stack)
 {
 	int		dest;
 	long	spread;
-	t_stack	*stk_head;
+	t_nbrlst	*stk_head;
 
 	dest = 0;
 	spread = 0;
@@ -67,7 +68,7 @@ int	get_dest_rev(int nbr, t_stack *stack)
 	return (get_pos(dest, stk_head));
 }
 
-void	initial_push(t_stack **stack_a, t_stack **stack_b)
+void	initial_push(t_nbrlst **stack_a, t_nbrlst **stack_b)
 {
 	ps_pb(stack_a, stack_b, 0);
 	ps_pb(stack_a, stack_b, 0);
@@ -75,45 +76,41 @@ void	initial_push(t_stack **stack_a, t_stack **stack_b)
 		ps_sb(stack_b, 0);
 }
 
-void	sort_list(t_stack **stack_a, t_stack **stack_b)
+void	sort_list(t_nbrlst **stack_a, t_nbrlst **stack_b, t_stacks *stks)
 {
-	t_sort	cheapest;
-	size_t	lstsiz_a;
-	size_t	lstsiz_b;
-
-	lstsiz_a = ft_lstsize(*stack_a);
-	lstsiz_b = ft_lstsize(*stack_b);
-	if (lstsiz_a == 3)
+	stks->a.size = ft_lstsize(*stack_a);
+	stks->b.size = ft_lstsize(*stack_b);
+	if (stks->a.size == 3)
 		return (sort_three(stack_a));
-	else if (lstsiz_a == 5)
-		return (sort_five(stack_a, stack_b, lstsiz_a));
+	else if (stks->a.size == 5)
+		return (sort_five(stack_a, stack_b, stks));
 	initial_push(stack_a, stack_b);
-	lstsiz_a -= 2;
-	lstsiz_b += 2;
+	stks->a.size -= 2;
+	stks->b.size += 2;
 	while (*stack_a)
 	{
-		cheapest = fetch_cheapest(*stack_a, *stack_b, lstsiz_a, lstsiz_b);
-		push_cheapest(cheapest, stack_a, stack_b);
-		lstsiz_a--;
-		lstsiz_b++;
+		fetch_cheapest(&(stks->a), &(stks->b), stks);
+		push_cheapest(&(stks->a), &(stks->b));
+		stks->a.size--;
+		stks->b.size++;
 	}
-	prep_stack(stack_b, lstsiz_b, 'b');
+	prep_stack(&(stks->b), 'b');
 	while (*stack_b)
 		ps_pa(stack_a, stack_b, 0);
 }
 
 int	main(int argc, char *argv[])
 {
-	t_stack	*stack_a;
-	t_stack	*stack_b;
+	t_stacks	stacks;
 
-	stack_a = NULL;
-	stack_b = NULL;
+	stacks = (t_stacks){0};
+	stacks.a.id = 'a';
+	stacks.b.id = 'b';
 	if (argc < 2)
 		return (1);
-	if (parse_args(argc, ++argv, &stack_a))
+	if (parse_args(argc, ++argv, &(stacks.a.list)))
 		exit(1);
-	if (!lst_orderchk(stack_a))
-		sort_list(&stack_a, &stack_b);
-	ft_lstclear(&stack_a, &lst_wipe);
+	if (!lst_orderchk(stacks.a.list))
+		sort_list(&(stacks.a.list), &(stacks.b.list), &stacks);
+	ft_lstclear(&(stacks.a.list), &lst_wipe);
 }

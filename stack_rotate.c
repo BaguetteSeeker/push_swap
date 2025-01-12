@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 16:49:09 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/21 00:11:36 by epinaud          ###   ########.fr       */
+/*   Updated: 2025/01/08 12:29:41 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 // ra (rotate a) : shift up all elements of stack a by 1. 
 // The first element becomes the last one.
-void	ps_ra(t_stack **a, int output)
+void	ps_ra(t_nbrlst **a, int output)
 {
-	t_stack	*tmp;
+	t_nbrlst	*tmp;
 
 	if (!*a || !(*a)->next)
 		return ;
@@ -31,9 +31,9 @@ void	ps_ra(t_stack **a, int output)
 
 // rb (rotate b) : shift up all elements of stack b by 1. 
 // The first element becomes the last one.
-void	ps_rb(t_stack **b, int output)
+void	ps_rb(t_nbrlst **b, int output)
 {
-	t_stack	*tmp;
+	t_nbrlst	*tmp;
 
 	if (!*b || !(*b)->next)
 		return ;
@@ -47,7 +47,7 @@ void	ps_rb(t_stack **b, int output)
 }
 
 // rr : ra and rb at the same time
-void	ps_rr(t_stack **a, t_stack **b, int output)
+void	ps_rr(t_nbrlst **a, t_nbrlst **b, int output)
 {
 	if (!*a || !((*a)->next) || !*b || !((*b)->next))
 		return ;

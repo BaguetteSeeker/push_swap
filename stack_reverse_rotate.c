@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 00:11:11 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/21 00:11:33 by epinaud          ###   ########.fr       */
+/*   Updated: 2025/01/08 12:29:30 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 // rra (reverse rotate a) : shift down all elements of stack a by 1. 
 // The last element becomes the first one.
-void	ps_rra(t_stack **a, int output)
+void	ps_rra(t_nbrlst **a, int output)
 {
-	t_stack	*tmp;
+	t_nbrlst	*tmp;
 	int		i;
 
 	if (!*a || !(*a)->next)
@@ -41,9 +41,9 @@ void	ps_rra(t_stack **a, int output)
 
 // rrb (reverse rotate b) : shift down all elements of stack b by 1. 
 // The last element becomes the first one.
-void	ps_rrb(t_stack **b, int output)
+void	ps_rrb(t_nbrlst **b, int output)
 {
-	t_stack	*tmp;
+	t_nbrlst	*tmp;
 	int		i;
 
 	if (!*b || !(*b)->next)
@@ -67,7 +67,7 @@ void	ps_rrb(t_stack **b, int output)
 }
 
 // rrr : rra and rrb at the same time.
-void	ps_rrr(t_stack **a, t_stack **b, int output)
+void	ps_rrr(t_nbrlst **a, t_nbrlst **b, int output)
 {
 	if (!*a || !((*a)->next) || !*b || !((*b)->next))
 		return ;

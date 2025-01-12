@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 02:08:23 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/21 03:03:04 by epinaud          ###   ########.fr       */
+/*   Updated: 2025/01/10 01:43:09 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,86 +51,87 @@ enum e_rotation
 	both
 };
 
-typedef struct s_pswap
-{
-	t_stack	**stack_a;
-	t_stack	**stack_b;
-	size_t	a_siz;
-	size_t	b_siz;
-}	t_pswap;
+// typedef struct s_pswap
+// {
+// 	t_stack	**stack_a;
+// 	t_stack	**stack_b;
+// 	size_t	a_siz;
+// 	size_t	b_siz;
+// }	t_pswap;
 
-typedef struct s_sort
-{
-	int		pos;
-	size_t	src_cost;
-	size_t	src_move;
-	size_t	dst_cost;
-	size_t	dst_move;
-	size_t	full_cost;
-}		t_sort;
+// typedef struct s_sort
+// {
+// 	int		pos;
+// 	size_t	src_cost;
+// 	size_t	src_move;
+// 	size_t	dst_cost;
+// 	size_t	dst_move;
+// 	size_t	full_cost;
+// }		t_sort;
 
 //ALTERNATE DATA STRUCTS FOR FURTHER FACTORIZATION
 // typedef struct s_nbrlst
 // {
 // 	long			nbr;
-// 	struct s_stack	*next;
+// 	struct s_nbrlst	*next;
 // }	t_nbrlst;
 
-// typedef struct s_sort
-// {
-// 	size_t	move;
-// 	size_t	cost;
-// }	t_sort;
+typedef struct s_sort
+{
+	size_t	side;
+	size_t	cost;
+}	t_sort;
 
-// typedef struct s_stack
-// {
-// 	size_t		size;
-// 	t_sort		moves;
-// 	t_nbrlst	**nbr;
-// }	t_stack;
+typedef struct s_stack
+{
+	char		id;
+	size_t		size;
+	t_sort		moves;
+	t_nbrlst	*list;
+}	t_stack;
 
-// typedef struct s_stacks
-// {
-// 	t_stack	a;
-// 	t_stack	b;
-// }	t_stacks;
+typedef struct s_stacks
+{
+	t_stack	a;
+	t_stack	b;
+	size_t	cheap_cost;
+}	t_stacks;
 
 # define INITIAL_STACKSIZ 2
 # define NO_COST 0
 # define PUSH_COST 1
 # define RR_EXCES_COST 1
 
-void	sort_list(t_stack **stack_a, t_stack **stack_b);
-void	sort_three(t_stack **stack);
-void	sort_five(t_stack **stk_a, t_stack **stk_b, size_t a_siz);
-int		parse_args(int argc, char **args, t_stack **stack_a);
-void	eval_rots(size_t pos, size_t lstsiz, size_t *move, size_t *cost);
-t_sort	fetch_cheapest(t_stack *src, t_stack *dst,
-			size_t src_siz, size_t dst_siz);
-void	prep_stack(t_stack **stack, size_t size, char ps);
-void	push_cheapest(t_sort nbr, t_stack **src_stk, t_stack **dst_stk);
+void	sort_list(t_nbrlst **stack_a, t_nbrlst **stack_b, t_stacks *stks);
+void	sort_three(t_nbrlst **stack);
+void	sort_five(t_nbrlst **stk_a, t_nbrlst **stk_b, t_stacks *stks);
+int		parse_args(int argc, char **args, t_nbrlst **stack_a);
+void	eval_rots(size_t pos, size_t lstsiz, t_sort *moves);
+void	fetch_cheapest(t_stack *src, t_stack *dst, t_stacks *stacks);
+void	prep_stack(t_stack *stack, char ps);
+void	push_cheapest(t_stack *src, t_stack *dst);
 void	ft_swap(long *val1, long *val2);
 int		min_array(int arr[], size_t siz);
 int		max_array(int arr[], size_t siz);
-int		lst_min(t_stack *lst);
-int		lst_max(t_stack *lst);
-int		get_pos(int nbr, t_stack *stack);
-int		get_dest(int nbr, t_stack *stack);
-int		get_dest_rev(int nbr, t_stack *stack);
-int		lst_orderchk(t_stack *stack);
-void	lst_wipe(t_stack *lst);
-void	lst_put(t_stack *lst);
-int		put_err(char *msg, char **args, char **nbr_lst, t_stack **stack);
+int		lst_min(t_nbrlst *lst);
+int		lst_max(t_nbrlst *lst);
+int		get_pos(int nbr, t_nbrlst *stack);
+int		get_dest(int nbr, t_nbrlst *stack);
+int		get_dest_rev(int nbr, t_nbrlst *stack);
+int		lst_orderchk(t_nbrlst *stack);
+void	lst_wipe(t_nbrlst *lst);
+void	lst_put(t_nbrlst *lst);
+int		put_err(char *msg, char **args, char **nbr_lst, t_nbrlst **stack);
 
-void	ps_pa(t_stack **a, t_stack **b, int output);
-void	ps_pb(t_stack **a, t_stack **b, int output);
-void	ps_sa(t_stack **a, int output);
-void	ps_sb(t_stack **b, int output);
-void	ps_ss(t_stack **a, t_stack **b, int output);
-void	ps_ra(t_stack **a, int output);
-void	ps_rb(t_stack **b, int output);
-void	ps_rr(t_stack **a, t_stack **b, int output);
-void	ps_rra(t_stack **b, int output);
-void	ps_rrb(t_stack **b, int output);
-void	ps_rrr(t_stack **a, t_stack **b, int output);
+void	ps_pa(t_nbrlst **a, t_nbrlst **b, int output);
+void	ps_pb(t_nbrlst **a, t_nbrlst **b, int output);
+void	ps_sa(t_nbrlst **a, int output);
+void	ps_sb(t_nbrlst **b, int output);
+void	ps_ss(t_nbrlst **a, t_nbrlst **b, int output);
+void	ps_ra(t_nbrlst **a, int output);
+void	ps_rb(t_nbrlst **b, int output);
+void	ps_rr(t_nbrlst **a, t_nbrlst **b, int output);
+void	ps_rra(t_nbrlst **b, int output);
+void	ps_rrb(t_nbrlst **b, int output);
+void	ps_rrr(t_nbrlst **a, t_nbrlst **b, int output);
 #endif

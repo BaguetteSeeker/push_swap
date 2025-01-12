@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 22:16:43 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/20 04:24:06 by epinaud          ###   ########.fr       */
+/*   Updated: 2025/01/08 12:29:51 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 // sa (swap a) : swap the first 2 elements at the top of stack a. 
 // Do nothing if there is only one or no elements).
-void	ps_sa(t_stack **a, int output)
+void	ps_sa(t_nbrlst **a, int output)
 {
-	t_stack	*tmp;
+	t_nbrlst	*tmp;
 
 	if (!*a || !((*a)->next))
 		return ;
@@ -30,9 +30,9 @@ void	ps_sa(t_stack **a, int output)
 
 // sb (swap b) : swap the first 2 elements at the top of stack b. 
 // Do nothing if there is only one or no elements).
-void	ps_sb(t_stack **b, int output)
+void	ps_sb(t_nbrlst **b, int output)
 {
-	t_stack	*tmp;
+	t_nbrlst	*tmp;
 
 	if (!*b || !((*b)->next))
 		return ;
@@ -45,9 +45,9 @@ void	ps_sb(t_stack **b, int output)
 }
 
 // ss : sa and sb at the same time.
-void	ps_ss(t_stack **a, t_stack **b, int output)
+void	ps_ss(t_nbrlst **a, t_nbrlst **b, int output)
 {
-	t_stack	*tmp;
+	t_nbrlst	*tmp;
 
 	if (!*a || !((*a)->next) || !*b || !((*b)->next))
 		return ;

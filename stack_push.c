@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 16:46:48 by epinaud           #+#    #+#             */
-/*   Updated: 2024/11/16 20:54:35 by epinaud          ###   ########.fr       */
+/*   Updated: 2025/01/04 02:17:15 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 // pa (push a) : take the first element at the top of b and 
 // put it at the top of a. Do nothing if b is empty.
-void	ps_pa(t_stack **a, t_stack **b, int output)
+void	ps_pa(t_nbrlst **a, t_nbrlst **b, int output)
 {
-	t_stack	*tmp;
+	t_nbrlst	*tmp;
 
 	if (!*b)
 		return ;
@@ -30,9 +30,9 @@ void	ps_pa(t_stack **a, t_stack **b, int output)
 
 // pb (push b) : take the first element at the top of a and put it 
 // at the top of b. Do nothing if a is empty.
-void	ps_pb(t_stack **stack_a, t_stack **stack_b, int output)
+void	ps_pb(t_nbrlst **stack_a, t_nbrlst **stack_b, int output)
 {
-	t_stack	*tmp;
+	t_nbrlst	*tmp;
 
 	if (!*stack_a)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 12:30:59 by epinaud           #+#    #+#             */
-/*   Updated: 2025/01/03 17:36:01 by epinaud          ###   ########.fr       */
+/*   Updated: 2025/01/08 11:53:56 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 # define LINKED_LIST_H
 # include "stdlib.h"
 
-typedef struct s_stack
+typedef struct s_nbrlst
 {
 	long			nbr;
-	struct s_stack	*next;
-}	t_stack;
+	struct s_nbrlst	*next;
+}	t_nbrlst;
 
 # ifndef LL_TYP
-#  define LL_TYP t_stack
+#  define LL_TYP t_nbrlst
 # endif
 #endif

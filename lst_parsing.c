@@ -6,13 +6,13 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 02:03:06 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/21 02:49:04 by epinaud          ###   ########.fr       */
+/*   Updated: 2025/01/04 14:19:33 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	get_pos(int nbr, t_stack *stack)
+int	get_pos(int nbr, t_nbrlst *stack)
 {
 	int	pos;
 
@@ -27,12 +27,12 @@ int	get_pos(int nbr, t_stack *stack)
 	return (-1);
 }
 
-//Fetches in the dst_stack the dst index where the given nbr belongs
-int	get_dest(int nbr, t_stack *stack)
+//Fetches in the dst stack the dst index where the given nbr belongs
+int	get_dest(int nbr, t_nbrlst *stack)
 {
 	int		dest;
 	long	spread;
-	t_stack	*stk_head;
+	t_nbrlst	*stk_head;
 
 	dest = 0;
 	spread = 0;
@@ -54,7 +54,7 @@ int	get_dest(int nbr, t_stack *stack)
 	return (get_pos(dest, stk_head));
 }
 
-int	lst_orderchk(t_stack *stack)
+int	lst_orderchk(t_nbrlst *stack)
 {
 	int	i;
 
@@ -69,7 +69,7 @@ int	lst_orderchk(t_stack *stack)
 	return (1);
 }
 
-int	lst_min(t_stack *lst)
+int	lst_min(t_nbrlst *lst)
 {
 	int	min;
 
@@ -83,7 +83,7 @@ int	lst_min(t_stack *lst)
 	return (min);
 }
 
-int	lst_max(t_stack *lst)
+int	lst_max(t_nbrlst *lst)
 {
 	int	max;
 

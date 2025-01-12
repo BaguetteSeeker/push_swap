@@ -6,13 +6,13 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:19:11 by epinaud           #+#    #+#             */
-/*   Updated: 2024/12/25 23:15:37 by epinaud          ###   ########.fr       */
+/*   Updated: 2025/01/08 12:34:42 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	put_err(char *msg, char **args, char **nbrs, t_stack **stack)
+int	put_err(char *msg, char **args, char **nbrs, t_nbrlst **stack)
 {
 	(void)msg;
 	ft_putendl_fd("Error", 1);
@@ -22,7 +22,7 @@ int	put_err(char *msg, char **args, char **nbrs, t_stack **stack)
 	exit(EXIT_FAILURE);
 }
 
-void	lst_wipe(t_stack *lst)
+void	lst_wipe(t_nbrlst *lst)
 {
 	lst->nbr = 0;
 }
@@ -50,6 +50,10 @@ static int	check_arg(char **args)
 	nlen = ft_nbrlen(nbr);
 	if (slen != nlen)
 		return (1);
+	// while (*args++)
+	// 	if (!ft_isdigit(**args))
+	// 		return (1);
+	// *args -= slen;
 	if (nbr < INT_MIN || nbr > INT_MAX)
 		return (1);
 	if (check_dup(*args, args + 1))
@@ -57,10 +61,10 @@ static int	check_arg(char **args)
 	return (0);
 }
 
-int	parse_args(int argc, char **args, t_stack **stack_a)
+int	parse_args(int argc, char **args, t_nbrlst **stack_a)
 {
 	char	**numstrlst;
-	t_stack	*node;
+	t_nbrlst	*node;
 	size_t	i;
 
 	numstrlst = NULL;
@@ -75,7 +79,7 @@ int	parse_args(int argc, char **args, t_stack **stack_a)
 	{
 		if (check_arg(&numstrlst[i]))
 			put_err("", args, numstrlst, stack_a);
-		node = ft_lstnew(&(t_stack){ft_atoi(numstrlst[i++]), NULL});
+		node = ft_lstnew(&(t_nbrlst){ft_atoi(numstrlst[i++]), NULL});
 		if (!node)
 			put_err("", args, numstrlst, stack_a);
 		else
