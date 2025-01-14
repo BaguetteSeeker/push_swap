@@ -6,7 +6,7 @@
 #    By: epinaud <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/25 16:30:14 by epinaud           #+#    #+#              #
-#    Updated: 2024/12/21 00:11:59 by epinaud          ###   ########.fr        #
+#    Updated: 2025/01/14 13:10:21 by epinaud          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC = cc
 
 CFLAGS = -Wall -Wextra -Werror -g3
 
-INCLUDES = -I. -Ilibft -Ilibft/printf
+INCLUDES = -I. -Ilibft/includes
 
 LDLIBS = -Llibft -lft 
 
