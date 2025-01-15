@@ -6,12 +6,13 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 02:08:23 by epinaud           #+#    #+#             */
-/*   Updated: 2025/01/10 01:43:09 by epinaud          ###   ########.fr       */
+/*   Updated: 2025/01/15 02:46:16 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
+# include "number_list.h"
 # include "libft.h"
 
 # define EXIT_FAILURE 1

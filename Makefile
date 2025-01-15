@@ -6,7 +6,7 @@
 #    By: epinaud <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/25 16:30:14 by epinaud           #+#    #+#              #
-#    Updated: 2025/01/14 13:10:21 by epinaud          ###   ########.fr        #
+#    Updated: 2025/01/15 02:26:19 by epinaud          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,4 +60,4 @@ fclean:  clean
 
 re: ftbranch fclean relibft $(OBJ_DIR) $(EXE)
 
-.PHONY:  all clean fclean re bonus libft relibft
+.PHONY:  all clean fclean re libft relibft
