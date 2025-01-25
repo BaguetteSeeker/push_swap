@@ -6,18 +6,11 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 23:24:03 by epinaud           #+#    #+#             */
-/*   Updated: 2025/01/10 20:43:28 by epinaud          ###   ########.fr       */
+/*   Updated: 2025/01/25 20:43:46 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-void	lst_put(t_nbrlst *lst)
-{
-	ft_putstr_fd("Stack member has nbr : ", 1);
-	ft_putnbr_fd(lst->nbr, 1, 0);
-	ft_putendl_fd("", 1);
-}
 
 //Strong stack opt. : remains to be implemented in order to solve 
 //the growing deoptimization occuring with divergeant rot directions 
@@ -70,7 +63,7 @@ void	fetch_cheapest(t_stack *src, t_stack *dst, t_stacks *stacks)
 	{
 		eval_rots(get_pos(tmptip->nbr, src->list), src->size, &tmpsrc);
 		eval_rots(get_dest(tmptip->nbr, dst->list), dst->size, &tmpdst);
-		tmpcost = move_cost(src->moves, dst->moves);
+		tmpcost = move_cost(tmpsrc, tmpdst);
 		if (tmpcost < stacks->cheap_cost || stacks->cheap_cost == 0)
 		{
 			src->moves = tmpsrc;
@@ -80,23 +73,3 @@ void	fetch_cheapest(t_stack *src, t_stack *dst, t_stacks *stacks)
 		tmptip = tmptip->next;
 	}
 }
-/* 
-	t_sort	*cheapest;
-	t_stack	*src_head;
-
-	src_head = src->list;
-	// cheapest = (t_sort){0};
-	// cheapest.pos = -1;
-	while (src->list)
-	{
-		eval_rots(get_pos(src->list->nbr, src_head), src->size, &src->moves);
-		eval_rots(get_dest(src->list->nbr, dst), dst->size, &dst->moves);
-		cost = move_cost(src->moves, dst->moves);
-		if (*cost < cheapest.cost || cheapest.pos == -1)
-		{
-			src->moves = 
-		}
-			//Store procedure within src & dst
-		src->list = src->list->next;
-	}
-	return (cheapest); */
