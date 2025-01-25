@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 23:24:03 by epinaud           #+#    #+#             */
-/*   Updated: 2025/01/25 20:43:46 by epinaud          ###   ########.fr       */
+/*   Updated: 2025/01/25 22:56:45 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,15 @@ static size_t	move_cost(t_sort src, t_sort dst)
 		return (src.cost + dst.cost + PUSH_COST);
 }
 
-//Evals necessarry rotations & their direction to properly prep the given stack
+//Evals and stores within the provided t_sort struct the minimum 
+//rotation cost and optimized direction to position 
+//the given number on top of the stack of size lstsize
 void	eval_rots(size_t pos, size_t lstsiz, t_sort *sort)
 {
 	size_t	mid_threshold;
 
 	if (pos == 0)
-	{	
+	{
 		*sort = (t_sort){.side = both, .cost = 0};
 		return ;
 	}
@@ -53,23 +55,23 @@ void	fetch_cheapest(t_stack *src, t_stack *dst, t_stacks *stacks)
 	t_sort		tmpsrc;
 	t_sort		tmpdst;
 	size_t		tmpcost;
-	t_nbrlst	*tmptip;
+	t_nbrlst	*tmp;
 
 	tmpsrc = (t_sort){0};
 	tmpdst = (t_sort){0};
-	tmptip = src->list;
-	stacks->cheap_cost = 0;
-	while (tmptip)
+	tmp = src->list;
+	stacks->cheap_cost = NO_COST;
+	while (tmp)
 	{
-		eval_rots(get_pos(tmptip->nbr, src->list), src->size, &tmpsrc);
-		eval_rots(get_dest(tmptip->nbr, dst->list), dst->size, &tmpdst);
+		eval_rots(get_pos(tmp->nbr, src->list), src->size, &tmpsrc);
+		eval_rots(get_dest(tmp->nbr, dst->list, REVERSE), dst->size, &tmpdst);
 		tmpcost = move_cost(tmpsrc, tmpdst);
-		if (tmpcost < stacks->cheap_cost || stacks->cheap_cost == 0)
+		if (tmpcost < stacks->cheap_cost || stacks->cheap_cost == NO_COST)
 		{
 			src->moves = tmpsrc;
 			dst->moves = tmpdst;
 			stacks->cheap_cost = tmpcost;
 		}
-		tmptip = tmptip->next;
+		tmp = tmp->next;
 	}
 }

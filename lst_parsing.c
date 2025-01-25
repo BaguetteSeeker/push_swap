@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 02:03:06 by epinaud           #+#    #+#             */
-/*   Updated: 2025/01/04 14:19:33 by epinaud          ###   ########.fr       */
+/*   Updated: 2025/01/25 23:06:44 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,30 +28,33 @@ int	get_pos(int nbr, t_nbrlst *stack)
 }
 
 //Fetches in the dst stack the dst index where the given nbr belongs
-int	get_dest(int nbr, t_nbrlst *stack)
+int	get_dest(int nbr, t_nbrlst *stack, size_t stance)
 {
-	int		dest;
-	long	spread;
+	int			target_nbr;
+	long		spread;
 	t_nbrlst	*stk_head;
 
-	dest = 0;
+	target_nbr = 0;
 	spread = 0;
 	stk_head = stack;
 	while (stack)
 	{
-		if (nbr > stack->nbr)
+		if ((stance == REVERSE && nbr > stack->nbr)
+			|| (stance == OBVERSE && nbr < stack->nbr))
 		{
 			if (nbr - stack->nbr < spread || spread == 0)
 			{
 				spread = nbr - stack->nbr;
-				dest = stack->nbr;
+				target_nbr = stack->nbr;
 			}
 		}
 		stack = stack->next;
 	}
-	if (spread == 0)
+	if (spread == 0 && stance == REVERSE)
 		return (get_pos(lst_min(stk_head), stk_head) + 1);
-	return (get_pos(dest, stk_head));
+	else if (spread == 0 && stance == OBVERSE)
+		return (get_pos(lst_max(stk_head), stk_head) + 1);
+	return (get_pos(target_nbr, stk_head));
 }
 
 int	lst_orderchk(t_nbrlst *stack)
