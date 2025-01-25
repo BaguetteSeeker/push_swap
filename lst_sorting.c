@@ -6,59 +6,40 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 15:30:15 by epinaud           #+#    #+#             */
-/*   Updated: 2025/01/10 20:45:24 by epinaud          ###   ########.fr       */
+/*   Updated: 2025/01/25 23:05:14 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	sort_three(t_nbrlst **stack)
+void	prep_stack(t_stack *stack, char ps)
 {
-	if ((*stack)->nbr == lst_max(*stack))
+	void	(*psptr)(t_nbrlst**, int);
+	t_sort	moves;
+
+	moves = (t_sort){0};
+	if (ps == 'b')
 	{
-		ps_ra(stack, 0);
-		if ((*stack)->nbr != lst_min(*stack))
-			ps_sa(stack, 0);
-	}
-	else if ((*stack)->nbr == lst_min(*stack))
-	{
-		if ((*stack)->next->nbr == lst_max(*stack))
-		{
-			ps_rra(stack, 0);
-			ps_sa(stack, 0);
-		}
+		eval_rots(get_pos(lst_max(stack->list),
+				stack->list), stack->size, &moves);
+		if (moves.side == up)
+			psptr = &ps_rb;
+		else
+			psptr = &ps_rrb;
+		while (moves.cost-- != 0)
+			psptr(&(stack->list), 0);
 	}
 	else
 	{
-		if ((*stack)->next->nbr == lst_min(*stack))
-			ps_sa(stack, 0);
-		else
-			ps_rra(stack, 0);
-	}
-}
-
-void	sort_five(t_nbrlst **stk_a, t_nbrlst **stk_b, t_stacks *stks)
-{
-	void	(*psptr)(t_nbrlst **, int);
-	t_sort	dst;
-
-	ps_pb(stk_a, stk_b, 0);
-	ps_pb(stk_a, stk_b, 0);
-	stks->a.size -= 2;
-	sort_three(stk_a);
-	while (*stk_b)
-	{
-		eval_rots(get_dest_rev((*stk_b)->nbr, *stk_a), stks->a.size, &dst);
-		if (dst.side == up)
+		eval_rots(get_pos(lst_min(stack->list),
+				stack->list), stack->size, &stack->moves);
+		if (moves.side == up)
 			psptr = &ps_ra;
 		else
 			psptr = &ps_rra;
-		while (dst.cost-- != 0)
-			psptr(stk_a, 0);
-		ps_pa(stk_a, stk_b, 0);
-		stks->a.size++;
+		while (moves.cost-- != 0)
+			psptr(&(stack->list), 0);
 	}
-	prep_stack(&(stks->a), 'a');
 }
 
 static void	duo_rot(t_sort moves, t_nbrlst **a, t_nbrlst **b)

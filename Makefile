@@ -6,11 +6,11 @@
 #    By: epinaud <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/25 16:30:14 by epinaud           #+#    #+#              #
-#    Updated: 2025/01/25 22:11:45 by epinaud          ###   ########.fr        #
+#    Updated: 2025/01/25 22:59:25 by epinaud          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC = push_swap.c args_parsing.c sort_preprocessing.c \
+SRC = push_swap.c args_parsing.c premade_sort.c sort_preprocessing.c \
 	lst_parsing.c lst_sorting.c stack_swap.c stack_push.c \
 	stack_rotate.c stack_reverse_rotate.c
 
