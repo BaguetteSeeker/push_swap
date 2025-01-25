@@ -6,7 +6,7 @@
 /*   By: epinaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 00:11:11 by epinaud           #+#    #+#             */
-/*   Updated: 2025/01/08 12:29:30 by epinaud          ###   ########.fr       */
+/*   Updated: 2025/01/25 22:53:50 by epinaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 void	ps_rra(t_nbrlst **a, int output)
 {
 	t_nbrlst	*tmp;
-	int		i;
+	int			i;
 
 	if (!*a || !(*a)->next)
 		return ;
@@ -44,7 +44,7 @@ void	ps_rra(t_nbrlst **a, int output)
 void	ps_rrb(t_nbrlst **b, int output)
 {
 	t_nbrlst	*tmp;
-	int		i;
+	int			i;
 
 	if (!*b || !(*b)->next)
 		return ;
